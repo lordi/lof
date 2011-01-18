@@ -5,8 +5,8 @@
 (defn ++ [e f] (cond (nil? e) f (nil? f) e true [e f]))
 
 ; atomic expressions
-(def empty-cross (cross nil))
 (def unmarked-space nil)
+(def empty-cross (cross unmarked-space))
 
 ; helper functions
 (defn cross? [e] (and (vector? e) (= (first e) :cross)))
@@ -21,7 +21,7 @@
     (every? cross? e) (let [m1 (simplify (marked-space (first e)))
                             m2 (simplify (marked-space (second e)))]
                         (if (= m1 m2) (simplify (cross m1))
-                          (++ (simplify (cross m1)) (cross m2))))))
+                          (++ (simplify (cross m1)) (simplify (cross m2)))))))
 
 ;--
 
